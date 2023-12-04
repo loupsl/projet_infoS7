@@ -14,7 +14,6 @@ df_selected_year = df_gdi[['Country', selected_gdi_column]]
 
 m = folium.Map(location=[0, 0], zoom_start=2)
 
-
 folium.Choropleth(
     geo_data="https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/world-countries.json",
     data=df_selected_year,
@@ -27,3 +26,11 @@ folium.Choropleth(
 ).add_to(m)
 
 folium_static(m)
+
+st.subheader(f"Les 5 pays les plus égalitaires en {selected_year}")
+top_egalitaires = df_gdi.sort_values(by=f'Gender Development Index ({selected_year})',ascending=False).head(5)
+st.dataframe(top_egalitaires)
+
+st.subheader(f"Les 5 pays les moins égalitaires en {selected_year}")
+top_inegalitaires = df_gdi.sort_values(by=f'Gender Development Index ({selected_year})').head(5)
+st.dataframe(top_inegalitaires)
