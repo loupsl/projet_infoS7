@@ -1,5 +1,6 @@
 from create_map_GII import create_map_GII
 from create_map_GDIyear import create_map_GDI
+from create_map_gender import create_map_genderpassport
 import folium
 import streamlit as st
 from streamlit_folium import folium_static
@@ -8,7 +9,7 @@ import pandas as pd
 st.title("Affichage des cartes")
 
 
-selected_map = st.radio("Choisissez la carte du monde à afficher:", ["Gender Inequality Index (GII)","Gender Development Index (GDI) since 1990"])
+selected_map = st.radio("Choisissez la carte du monde à afficher:", ["Gender Inequality Index (GII)","Gender Development Index (GDI) since 1990","Gender appliance for a passport since 2003"])
 
 
 if selected_map == "Gender Inequality Index (GII)":
@@ -36,3 +37,10 @@ elif selected_map == "Gender Development Index (GDI) since 1990":
     st.subheader(f"Les 5 pays les moins égalitaires en {selected_year}")
     top_inegalitaires = df_gdi.sort_values(by=f'Gender Development Index ({selected_year})').head(5)
     st.dataframe(top_inegalitaires)
+
+elif selected_map == "Gender appliance for a passport since 2003":
+
+    st.title("")
+    df_passport = pd.read_csv("C:/Users/pelis/Documents/Mines2A/projet_infoS7/gender_apply_passeport/f4bc7e60-3002-4965-b634-58394c135c0c_Data.csv")
+    selected_year = st.slider ("Sélectionner une année", 2003, 2022, value = 2022)
+    folium_static(create_map_genderpassport(df_passport,selected_year))
