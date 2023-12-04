@@ -10,7 +10,6 @@ st.title("Importation de jeu de données avec Streamlit")
 # Ajouter un bouton pour importer le jeu de données
 uploaded_file = st.file_uploader("Importez un fichier CSV", type=["csv"])
 
-
 if uploaded_file is not None:
 
     # Charger le jeu de données dans un DataFrame
@@ -74,7 +73,7 @@ if uploaded_file is not None:
 
         show_regression_line = st.checkbox("Droite de régression linéaire")
 
-        # Afficher le nuage de points
+        # affichage du nuage de points
         if st.button("Afficher le nuage de points"):
             fig, ax = plt.subplots()
             ax.scatter(df[variable_x], df[variable_y], color = "blue", label='Nuage de Points')
