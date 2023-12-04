@@ -3,11 +3,9 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-
 df = pd.read_csv("Gender_Inequality_Index.csv")
 
 st.title("Création de profils de pays en fonction du GII")
-
 
 variable_gii = df.columns[2]
 variable_pays = df.columns[0]
@@ -19,7 +17,6 @@ df['GII Group'] = pd.qcut(df[variable_gii], num_groups, labels=False)
 df['GII Group'].replace('nan', 'None', inplace=True)
 
 df['GII Group'] = df['GII Group'].apply(lambda x: str(int(x) + 1) if not pd.isna(x) else 'None')
-
 
 col1, col2 = st.columns(2)
 
