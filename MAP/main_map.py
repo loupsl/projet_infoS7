@@ -1,10 +1,11 @@
 from create_map_GII import create_map_GII
-from create_map_GDIyear import create_map_GDI
+from create_map_GDIyear import create_map_GDI, predict_GDI
 from create_map_gender import create_map_genderpassport, create_map_genderjob
 import folium
 import streamlit as st
 from streamlit_folium import folium_static
 import pandas as pd
+import numpy as np
 
 st.title("Affichage des cartes")
 
@@ -24,9 +25,9 @@ if selected_map == "Gender Inequality Index (GII)":
 
 elif selected_map == "Gender Development Index (GDI) since 1990":
 
-
     st.title("Carte du Monde - Gender Development Index (GDI)")
-    selected_year = selected_year = st.slider("Sélectionnez une année", min_value=1990, max_value=2021, value=2021)
+
+    selected_year = st.slider("Sélectionnez une année", min_value=1990, max_value=2031, value=2021)
     df_gdi = pd.read_csv("GDI_1990_2021.csv")
     folium_static(create_map_GDI(df_gdi,selected_year))
 
@@ -51,3 +52,4 @@ elif selected_map == "Gender applicance for a job since 2003":
     df_job = pd.read_csv("C:/Users/pelis/Documents/Mines2A/projet_infoS7/gender_get_jobs/be6a4d69-a68a-4177-98d9-2fe49f3014be_Data.csv")
     selected_year = st.slider ("Sélectionner une année", 2003, 2022, value = 2022)
     folium_static(create_map_genderjob(df_job,selected_year))
+
