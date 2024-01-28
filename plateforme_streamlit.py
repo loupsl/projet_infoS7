@@ -59,7 +59,8 @@ if uploaded_file is not None:
 
         # Interprétation des résultats
         if p_value < 0.05:
-            st.success(f"Il y a une corrélation statistiquement significative entre {variable_a} et {variable_b}.")
+            st.success(f"Il y a une corrélation statistiquement significative (positive) entre {variable_a} et {variable_b}.")
+        
         else:
             st.warning(f"Il n'y a pas de corrélation statistiquement significative entre {variable_a} et {variable_b}.")
 

@@ -36,15 +36,13 @@ def predict_GDI(gdi_data):
 
 
 def create_map_GDI(df_gdi, selected_year):
-    
-    
-    predicted_gdi = predict_GDI(df_gdi) 
 
     if selected_year <= 2021: 
         selected_gdi_column = f"Gender Development Index ({selected_year})"
         df_selected_year = df_gdi[['Country', selected_gdi_column]]
 
     elif selected_year > 2021: 
+        predicted_gdi = predict_GDI(df_gdi) 
         selected_gdi_column = selected_year
         df_selected_year = predicted_gdi[['Country',selected_gdi_column]]
 
