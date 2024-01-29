@@ -11,14 +11,24 @@ st.title("Importation de jeu de données avec Streamlit")
 
 # Ajouter un bouton pour importer le jeu de données
 uploaded_file = st.file_uploader("Importez un fichier CSV", type=["csv"])
-
+chemin_gdi = "C://Users/pelis/Documents/Mines2A/projet_infoS7\GDI_detail_2019.csv"
+chemin_gii = "C://Users/pelis/Documents/Mines2A/projet_infoS7\Gender_Inequality_Index.csv"
 
 if uploaded_file is not None:
-    file_name = uploaded_file.name 
-    # Charger le jeu de données dans un DataFrame
-    df = pd.read_csv(uploaded_file)
 
-    st.dataframe(df.head(50))
+    file_name = uploaded_file.name 
+
+    if file_name == "GDI_detail_2019.csv" : 
+        df = pd.read_csv(uploaded_file,skiprows=[1])
+
+        def convert_to_numeric(column):
+            return pd.to_numeric(column.str.replace(',', '').str.replace(' ', ''), errors='coerce')
+
+        for col in df.columns.drop(['HDI Rank', 'Country']):
+            df[col] = convert_to_numeric(df[col])
+
+    else: 
+        df = pd.read_csv(uploaded_file) 
 
     quantitative_cols = df.select_dtypes(include=["float64","int64"])
 
@@ -26,7 +36,11 @@ if uploaded_file is not None:
 
    
     if selected_tab == "Informations et Résumé":
+
         st.header("Informations et Résumé")
+
+        st.dataframe(df.head(70))
+
         st.subheader("Statistiques sur les variables quantitatives")
 
         stats_data = []
@@ -42,10 +56,6 @@ if uploaded_file is not None:
         st.write(stats_df)
 
     elif selected_tab == "Corrélations":
-        
-        st.subheader("Matrice de corrélation")
-        chemin_gdi = "C://Users/pelis/Documents/Mines2A/projet_infoS7\GDI_detail_2019.csv"
-        chemin_gii = "C://Users/pelis/Documents/Mines2A/projet_infoS7\Gender_Inequality_Index.csv"
 
     
         def convert_to_numeric(column):
