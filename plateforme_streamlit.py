@@ -3,15 +3,18 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import seaborn as sns
 from scipy.stats import pearsonr 
-
+import plotly.express as px 
+import plotly.figure_factory as ff
+import numpy as np 
 
 st.title("Importation de jeu de données avec Streamlit")
 
 # Ajouter un bouton pour importer le jeu de données
 uploaded_file = st.file_uploader("Importez un fichier CSV", type=["csv"])
 
-if uploaded_file is not None:
 
+if uploaded_file is not None:
+    file_name = uploaded_file.name 
     # Charger le jeu de données dans un DataFrame
     df = pd.read_csv(uploaded_file)
 
@@ -19,7 +22,7 @@ if uploaded_file is not None:
 
     quantitative_cols = df.select_dtypes(include=["float64","int64"])
 
-    selected_tab = st.radio("Sélectionnez l'onglet :", ("Informations et Résumé", "Nuage de Points","Histogramme","Comparer les statistiques entre groupes"))
+    selected_tab = st.radio("Sélectionnez l'onglet :", ("Informations et Résumé", "Corrélations","Visualisation","Classification","Prédictions"))
 
    
     if selected_tab == "Informations et Résumé":
@@ -38,12 +41,70 @@ if uploaded_file is not None:
         stats_df = pd.DataFrame(stats_data)
         st.write(stats_df)
 
+    elif selected_tab == "Corrélations":
+        
         st.subheader("Matrice de corrélation")
-        corr_matrix = quantitative_cols.corr()
-        plt.figure(figsize=(10, 8))
-        sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", linewidths=.5)
-        st.set_option('deprecation.showPyplotGlobalUse', False)
-        st.pyplot()
+        chemin_gdi = "C://Users/pelis/Documents/Mines2A/projet_infoS7\GDI_detail_2019.csv"
+        chemin_gii = "C://Users/pelis/Documents/Mines2A/projet_infoS7\Gender_Inequality_Index.csv"
+
+    
+        def convert_to_numeric(column):
+            return pd.to_numeric(column.astype(str).str.replace(',', ''), errors='coerce')
+        
+
+        if file_name == "Gender_Inequality_Index.csv": 
+            gender_inequality_index_df = pd.read_csv(chemin_gii)
+            numeric_columns_gii = gender_inequality_index_df.select_dtypes(include=[np.number])
+            corr_matrix_gii = numeric_columns_gii.corr()
+            fig_gii = ff.create_annotated_heatmap(
+                z=corr_matrix_gii.to_numpy(),
+                x=corr_matrix_gii.columns.tolist(),
+                y=corr_matrix_gii.columns.tolist(),
+                annotation_text=np.around(corr_matrix_gii.values, 2),
+                colorscale='Viridis',
+                showscale=True
+            )
+            fig_gii.update_layout(
+                title='Gender Inequality Index Correlation Matrix',
+                width=600,
+                height=600,
+                xaxis=dict(side='bottom')  # Place la légende horizontale en dessous de la matrice
+            )
+            st.header('Gender Inequality Index')
+            st.plotly_chart(fig_gii)
+
+        if file_name == "GDI_detail_2019.csv": 
+            gdi_detail_2019_df = pd.read_csv(chemin_gdi)
+            gdi_detail_2019_df = gdi_detail_2019_df.drop(0)
+            gdi_columns_to_convert = ['GDI_Value', 'HDI_Female', 'HDI_Male', 'Lif_Expec_Female', 'Lif_Excep_Male',
+                                    'Excep_Yrs_Schooling_Female', 'Excep_Yrs_Schooling_Male',
+                                    'Mean_Yrs_Schooling_Female', 'Mean_Yrs_Schooling_Male',
+                                    'GNI_PC_Female', 'GNI_PC_Male']
+
+            for column in gdi_columns_to_convert:
+                gdi_detail_2019_df[column] = convert_to_numeric(gdi_detail_2019_df[column])
+            
+            numeric_columns_gdi = gdi_detail_2019_df.select_dtypes(include=[np.number])
+            corr_matrix_gdi = numeric_columns_gdi.corr()
+            fig_gdi = ff.create_annotated_heatmap(
+                z=corr_matrix_gdi.to_numpy(),
+                x=corr_matrix_gdi.columns.tolist(),
+                y=corr_matrix_gdi.columns.tolist(),
+                annotation_text=np.around(corr_matrix_gdi.values, 2),
+                colorscale='Viridis',
+                showscale=True
+            )
+            fig_gdi.update_layout(
+                title='GDI Detail 2019 Correlation Matrix',
+                width=800,
+                height=800,
+                xaxis=dict(side='bottom')  # Place la légende horizontale en dessous de la matrice
+            )
+
+            st.header('Matrice de corrélation')
+            st.plotly_chart(fig_gdi)
+    
+
 
         st.subheader("P-value et corrélation")
 
@@ -65,51 +126,52 @@ if uploaded_file is not None:
             st.warning(f"Il n'y a pas de corrélation statistiquement significative entre {variable_a} et {variable_b}.")
 
 
-    elif selected_tab == "Nuage de Points":
+    elif selected_tab == "Visualisation":
         
         st.header("Nuage de Points")
 
         variable_x = st.selectbox("Variable de l'axe des abscisses", df.columns)
         variable_y = st.selectbox("Variable de l'axe des ordonnées", df.columns)
 
-        show_regression_line = st.checkbox("Droite de régression linéaire")
-
         # affichage du nuage de points
         if st.button("Afficher le nuage de points"):
-            fig, ax = plt.subplots()
-            ax.scatter(df[variable_x], df[variable_y], color = "blue", label='Nuage de Points')
+            df['Country'] = df['Country'].astype('category')
 
-            if show_regression_line:
-                if (df[variable_x].dtype == 'float64' or df[variable_x].dtype == 'int64') and (df[variable_y].dtype == 'float64' or df[variable_y].dtype == 'int64'):
-                    sns.regplot(x=df[variable_x],y=df[variable_y], ax=ax, ci=None, color = "red", scatter=False, label='Droite de régression Linéaire')
-                else: 
-                    st.write("Les données ne sont pas de type numérique.")
+            fig = px.scatter(df, variable_x, variable_y, title='Nuage de points des valeurs par pays')
 
+            if variable_x == "GDI_Value":
+                maxvalue,minvalue = 1.1,0.3
+            else:
+                maxvalue,minvalue=1,0
 
-            ax.set_xlabel(variable_x)
-            ax.set_ylabel(variable_y)
-            ax.set_title("Nuage de points")
-            ax.legend()
-            st.pyplot(fig)  
+            fig.update_xaxes(showticklabels=False) 
+            fig.update_layout(
+                yaxis=dict(range=[minvalue, maxvalue]),  
+                xaxis=dict(categoryorder='total descending', tickangle=-45),
+                width = 800,
+                height = 600,
+            )
 
+            st.plotly_chart(fig)
 
-    elif selected_tab == "Histogramme":
         st.header("Histogramme")
 
+        country = st.selectbox("Choisir un pays", df['Country'].unique())
+        country_data = df[df['Country'] == country]
+        #............................
         
-        variable_histo = st.selectbox("Variable pour l'histogramme", quantitative_cols.columns)
+
 
         
-        plt.figure(figsize=(8, 6))
-        sns.histplot(data=df, x=variable_histo, kde=False, color='blue')
-        plt.xlabel(variable_histo)
-        plt.ylabel("Fréquence")
-        plt.title(f"Histogramme de {variable_histo}")
-        st.pyplot()
-        
-    elif selected_tab == "Comparer les statistiques entre groupes":
+    elif selected_tab == "Classification":
 
-        st.header("Comparaison entre les groupes")
+        st.header("Classification")
+
+
+
+    elif selected_tab == "Prédictions":
+
+        st.header("Prédictions")
 
         
 

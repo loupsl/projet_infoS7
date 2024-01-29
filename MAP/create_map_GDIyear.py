@@ -15,7 +15,7 @@ def predict_GDI(gdi_data):
 
     predicted_gdi = pd.DataFrame(gdi_melted['Country'].unique(), columns=['Country'])
     for year in range(2022, 2032):
-        predicted_gdi[str(year)] = np.nan  # Ajouter les colonnes pour les années de prédiction
+        predicted_gdi[str(year)] = np.nan  # ajouter les colonnes pour les années de prédiction
 
     
     for country in predicted_gdi['Country']:
