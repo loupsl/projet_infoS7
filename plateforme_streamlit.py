@@ -6,12 +6,10 @@ from scipy.stats import pearsonr
 import plotly.express as px 
 import plotly.figure_factory as ff
 import numpy as np 
-from histograms import create_histogram_for_countryGDI, create_histogram_for_countryGII, load_and_transform_data
+from histograms import create_histogram_for_countryGDI, create_histogram_for_countryGII
 from create_map_GII import create_map_GII
-from create_map_GDIyear import create_map_GDI, predict_GDI
-from MAP.create_map_gender import create_map_genderpassport, create_map_genderjob
-from pred_arima import plot_prediction 
-import folium  
+from create_map_GDIyear import create_map_GDI
+from pred_arima import plot_prediction  
 from streamlit_folium import folium_static
 
 st.title("Importation de jeu de données avec Streamlit")
