@@ -78,7 +78,7 @@ if uploaded_file is not None:
                 title='Gender Inequality Index Correlation Matrix',
                 width=600,
                 height=600,
-                xaxis=dict(side='bottom')  # Place la légende horizontale en dessous de la matrice
+                xaxis=dict(side='bottom')  
             )
             st.header('Gender Inequality Index')
             st.plotly_chart(fig_gii)
@@ -285,17 +285,15 @@ if uploaded_file is not None:
         gdi_melted = gdi_melted.sort_values(by=['Country', 'Year'])
         country_list = gdi_melted['Country'].unique()
 
-        # ...
 
         selected_country = st.selectbox('Choisissez un pays', country_list)
 
-        # Permettre à l'utilisateur de choisir les paramètres p, d, q
         p = st.slider('Choisir p (Auto-régression)', min_value=0, max_value=10, value=5)
         d = st.slider('Choisir d (Différenciation)', min_value=0, max_value=3, value=1)
         q = st.slider('Choisir q (Moyenne mobile)', min_value=0, max_value=10, value=0)
 
-        #if st.button('Afficher les prédictions'):
-        plot_prediction(gdi_melted, selected_country, p, d, q)
+        if st.button('Afficher les prédictions'):
+            plot_prediction(gdi_melted, selected_country, p, d, q)
 
 
 
