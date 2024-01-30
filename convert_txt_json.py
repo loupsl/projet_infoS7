@@ -1,10 +1,10 @@
 import json
 
 # Chemin du fichier txt original
-chemin_txt = 'C:/Users/pelis/Documents/Mines2A/projet_infoS7/MAP/fichiercreeGDI.txt'
+chemin_txt = 'C:/Users/pelis/Documents/Mines2A/projet_infoS7/fichiercreeGDI.txt'
 
 # Chemin du nouveau fichier JSON
-chemin_json = 'C:/Users/pelis/Documents/Mines2A/projet_infoS7/MAP/fichiercreeGDI.json'
+chemin_json = 'C:/Users/pelis/Documents/Mines2A/projet_infoS7/GDI_geo.json'
 
 # Lire le contenu du fichier txt
 with open(chemin_txt, 'r') as fichier_txt:

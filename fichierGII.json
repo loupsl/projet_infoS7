@@ -13192,7 +13192,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Ivory Coast"
+                "name": "Côte d'Ivoire"
             },
             "geometry": {
                 "type": "Polygon",
@@ -13648,7 +13648,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Congo (Democratic Republic of the)"
+                "name": "Congo"
             },
             "geometry": {
                 "type": "Polygon",
@@ -24768,7 +24768,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Korea (Republic of)"
+                "name": "South Korea"
             },
             "geometry": {
                 "type": "Polygon",
@@ -26206,7 +26206,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Moldova (Republic of)"
+                "name": "Moldova"
             },
             "geometry": {
                 "type": "Polygon",
@@ -40396,7 +40396,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Turkey"
+                "name": "Türkiye"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -40734,7 +40734,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Tanzania (United Republic of)"
+                "name": "Tanzania"
             },
             "geometry": {
                 "type": "Polygon",

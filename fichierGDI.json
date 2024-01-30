@@ -14150,7 +14150,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Congo (Democratic Republic of the)"
+                "name": "Congo"
             },
             "geometry": {
                 "type": "Polygon",

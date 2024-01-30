@@ -12,7 +12,6 @@ from create_map_GDIyear import create_map_GDI
 from pred_arima import plot_prediction  
 from streamlit_folium import folium_static
 
-st.subheader("Let's get started ! ")
 
 file_name = st.selectbox("Choisissez un jeu de données", ["Gender_Inequality_Index.csv", "GDI_detail_2019.csv"])
 
@@ -33,26 +32,7 @@ if file_name is not None:
 
     quantitative_cols = df.select_dtypes(include=["float64","int64"])
     with st.sidebar:
-        custom_css_sidebar = """
-        <style>
-            sidebar .title {
-            color: #ff2c83;
-            font-weight: bold;
-            font-size: 1.5em; 
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem; 
-            border-bottom: 2px solid #ff2c83; 
-        }
-        
-        .sidebar .space {
-            margin-bottom: 2rem; 
-            }
-        </style>
-    """
-        st.sidebar.markdown(custom_css_sidebar, unsafe_allow_html=True)
-        st.sidebar.markdown('<div class="title">Projet d\'Informatique S7</div>', unsafe_allow_html=True)
-        st.sidebar.markdown('<div class="space"></div>', unsafe_allow_html=True) 
-
+        st.sidebar.title("Menu")
         selected_tab = st.radio("Sélectionnez l'onglet :", 
                             ('Informations et Résumé', 'Corrélations', 
                              'Visualisation', 'Classification', 'Prédictions pour le GDI'))
@@ -211,9 +191,9 @@ if file_name is not None:
     elif selected_tab == "Classification":
         st.title("Classification")
         st.header('Création de profils de pays avec K-Means')
-
+        
         if file_name == "Gender_Inequality_Index.csv":
-            data = pd.read_csv('Gender_Inequality_Index_with_Clusters.csv')
+            data = pd.read_csv('Updated_GII_with_Sorted_Clusters_and_All_Columns.csv')
 
             st.sidebar.title("Classification des Pays")
             selected_cluster = st.sidebar.selectbox("Sélectionnez un Cluster", sorted(data['Cluster'].unique()))
@@ -258,7 +238,7 @@ if file_name is not None:
 
         if file_name == "GDI_detail_2019.csv":
 
-            data = pd.read_csv("GDI_detail_2019_with_Clusters.csv")
+            data = pd.read_csv("Updated_GDI_with_Sorted_Clusters_and_All_Columns.csv")
             st.sidebar.title("Classification des Pays")
             selected_cluster = st.sidebar.selectbox("Sélectionnez un Cluster", sorted(data['Cluster'].unique()))
             st.write(f"Pays dans le Cluster {selected_cluster}:")
@@ -289,6 +269,10 @@ if file_name is not None:
                 if 'Lif_Excep_Male' in cluster_stats:
                     st.markdown(f"**Espérance de vie moyenne des hommes:** {cluster_stats['Lif_Excep_Male']:.1f} ans")
 
+
+                    #carte du monde avec les différents clusters 
+
+        
 
     elif selected_tab == "Prédictions pour le GDI":
         gdi_data = pd.read_csv("GDI_1990_2021.csv")
