@@ -33,6 +33,8 @@ def predict_GDI(gdi_data):
     #for country in country_list : 
 
 
+
+
 def create_map_GDI(df_gdi, selected_year):
 
     if selected_year <= 2021: 
@@ -47,7 +49,7 @@ def create_map_GDI(df_gdi, selected_year):
 
     m = folium.Map(location=[0, 0], zoom_start=2)
     folium.Choropleth(
-        geo_data="https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/world-countries.json",
+        geo_data="C:/Users/pelis/Documents/Mines2A/projet_infoS7/MAP/fichiercreeGDI.json",
         data=df_selected_year,
         columns=['Country', selected_gdi_column],
         key_on='feature.properties.name',

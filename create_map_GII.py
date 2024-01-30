@@ -16,7 +16,7 @@ def create_map_GII(df):
 
     
     folium.Choropleth(
-    geo_data="https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/world-countries.json",
+    geo_data="C:/Users/pelis/Documents/Mines2A/projet_infoS7/MAP/fichiercree.json",
     name="choropleth",
     data=df,
     columns=['Country', 'GII'],
