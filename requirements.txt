@@ -8,3 +8,4 @@ numpy
 folium
 streamlit-folium
 statsmodels
+fsspec

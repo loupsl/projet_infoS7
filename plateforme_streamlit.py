@@ -16,9 +16,9 @@ st.title("Importation de jeu de données avec Streamlit")
 
 
 uploaded_file = st.file_uploader("Importez un fichier CSV", type=["csv"])
-chemin_gdi = "C://Users/pelis/Documents/Mines2A/projet_infoS7\GDI_detail_2019.csv"
-chemin_gii = "C://Users/pelis/Documents/Mines2A/projet_infoS7\Gender_Inequality_Index.csv"
-chemin_gdi1990 = "C://Users/pelis/Documents/Mines2A/projet_infoS7\GDI_1990_2021.csv"
+chemin_gdi = "GDI_detail_2019.csv"
+chemin_gii = "Gender_Inequality_Index.csv"
+chemin_gdi1990 = "GDI_1990_2021.csv"
 
 if uploaded_file is not None:
 
@@ -271,8 +271,7 @@ if uploaded_file is not None:
 
 
     elif selected_tab == "Prédictions pour le GDI":
-        file_path = "C://Users/pelis/Documents/Mines2A/projet_infoS7/GDI_1990_2021.csv"
-        gdi_data = pd.read_csv(file_path)
+        gdi_data = pd.read_csv("GDI_1990_2021.csv")
 
         st.title('Prédictions du Gender Development Index avec ARIMA')
 

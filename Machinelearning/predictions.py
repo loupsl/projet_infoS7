@@ -7,7 +7,7 @@ from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error
 import numpy as np
 
-file_path = "C://Users/pelis/Documents/Mines2A/projet_infoS7/GDI_1990_2021.csv"
+file_path = "GDI_1990_2021.csv"
 gdi_data = pd.read_csv(file_path)
 
 

@@ -5,17 +5,13 @@ import pandas as pd
 
 def create_map_GII(df):
     
-    #converter = coco.CountryConverter()
-    #df['Country'] = df['Country'].apply(lambda x: converter.convert(x, to='ISO3'))
-    
-    #suppression des lignes où la valeur du GII est "None"
     df = df.dropna(subset=['GII'])
 
     m = folium.Map(location=[0, 0], zoom_start=2)
 
     
     folium.Choropleth(
-    geo_data="C:/Users/pelis/Documents/Mines2A/projet_infoS7/MAP/fichiercree.json",
+    geo_data="fichiercree.json",
     name="choropleth",
     data=df,
     columns=['Country', 'GII'],

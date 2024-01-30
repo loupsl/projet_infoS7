@@ -7,7 +7,7 @@ from branca.element import Template, MacroElement
 
 data_path = 'Gender_Inequality_Index_with_Clusters.csv'
 data = pd.read_csv(data_path)
-json_path = "C:/Users/pelis/Documents/Mines2A/projet_infoS7/MAP/fichiercree.json"
+json_path = "fichiercree.json"
 with open(json_path) as f:
     country_geo = json.load(f)
 

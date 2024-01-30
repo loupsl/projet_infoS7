@@ -20,7 +20,7 @@ def create_map_GDI(df_gdi, selected_year):
 
     m = folium.Map(location=[0, 0], zoom_start=2)
     folium.Choropleth(
-        geo_data="C:/Users/pelis/Documents/Mines2A/projet_infoS7/MAP/fichiercreeGDI.json",
+        geo_data="fichiercreeGDI.json",
         data=df_selected_year,
         columns=['Country', selected_gdi_column],
         key_on='feature.properties.name',

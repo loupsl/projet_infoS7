@@ -28,7 +28,7 @@ def plot_dendrogram(model, **kwargs):
 # Load data
 @st.cache
 def load_data():
-    data = pd.read_csv("C://Users/pelis/Documents/Mines2A/projet_infoS7\Gender_Inequality_Index.csv")
+    data = pd.read_csv("Gender_Inequality_Index.csv")
     numerical_data = data.select_dtypes(include=[np.number])
     imputer = SimpleImputer(strategy='mean')
     numerical_data_imputed = imputer.fit_transform(numerical_data)
