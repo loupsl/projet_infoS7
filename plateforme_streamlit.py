@@ -122,7 +122,7 @@ if uploaded_file is not None:
             st.write(f"**P-value :** {p_value}")
             # Interprétation des résultats
             if p_value < 0.05:
-                st.success(f"Il y a une corrélation statistiquement significative (positive) entre {variable_a} et {variable_b}.")
+                st.success(f"Il y a une corrélation statistiquement significative entre {variable_a} et {variable_b}.")
             else:
                 st.warning(f"Il n'y a pas de corrélation statistiquement significative entre {variable_a} et {variable_b}.")
 
@@ -130,7 +130,8 @@ if uploaded_file is not None:
     elif selected_tab == "Visualisation":
         
         st.header("Nuage de Points")
-        variable_x = st.selectbox("Variable de l'axe des abscisses", df.columns)
+        variable_x = 'Country' 
+        st.write("Variable de l'axe des abscisses : Country")
         variable_y = st.selectbox("Variable de l'axe des ordonnées", df.columns)
         if st.button("Afficher le nuage de points"):
             df['Country'] = df['Country'].astype('category')

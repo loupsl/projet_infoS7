@@ -30,7 +30,7 @@ def plot_prediction(gdi_melted, selected_country, p=5, d=1, q=0):
                   labels={'GDI': 'Gender Development Index'},
                   title=f'GDI pour {selected_country} (Réel vs Prédictions ARIMA)')
     fig.update_traces(mode='lines+markers')
-    fig.update_layout(hovermode='x')
+    fig.update_layout(hovermode='x',width=800,height=600)
 
     st.plotly_chart(fig)
 
