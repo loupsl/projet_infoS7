@@ -11,7 +11,7 @@ from create_map_GII import create_map_GII
 from create_map_GDIyear import create_map_GDI
 from pred_arima import plot_prediction  
 from streamlit_folium import folium_static
-
+from carte_classif import map_cluster_GII, map_cluster_GDI
 
 file_name = st.selectbox("Choisissez un jeu de données", ["Gender_Inequality_Index.csv", "GDI_detail_2019.csv"])
 
@@ -197,18 +197,18 @@ if file_name is not None:
 
             st.sidebar.title("Classification des Pays")
             selected_cluster = st.sidebar.selectbox("Sélectionnez un Cluster", sorted(data['Cluster'].unique()))
-            st.write(f"Pays dans le Cluster {selected_cluster}:")
-            st.write(data[data['Cluster'] == selected_cluster][['Country', 'GII','Cluster']])
-
             st.header('Visualisation des Inégalités de Genre par Pays')
-
             data['Cluster'] = data['Cluster'].astype('category')
             metric = st.selectbox('Choisissez une métrique à visualiser:', data.columns[2:-1]) # exclure 'Country', 'Human_development', et 'Cluster'
             custom_colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd'] # Bleu, Orange, Vert, Rouge, Violet
             fig = px.scatter(data, x=metric, y='GII', color='Cluster',
                             hover_data=['Country'], title=f'Distribution de {metric} vs GII par Cluster',
                             color_discrete_sequence=custom_colors) 
+            fig.update_layout(width=800,height=600)
             st.plotly_chart(fig)
+
+            st.write(f"Pays dans le Cluster {selected_cluster}:")
+            st.write(data[data['Cluster'] == selected_cluster][['Country', 'GII','Cluster']])
 
             cluster_data = data[data['Cluster'] == selected_cluster]
             numeric_columns = cluster_data.select_dtypes(include=['float64', 'int64'])
@@ -234,7 +234,8 @@ if file_name is not None:
                 if 'M_Labour_force' in cluster_stats:
                     st.markdown(f"**Participation moyenne des hommes dans la force de travail:** {cluster_stats['M_Labour_force']:.2f}%")
 
-            #carte du monde avec les différents clusters 
+            st.header("Visualisation des clusters")
+            map_cluster_GII('Updated_GII_with_Sorted_Clusters_and_All_Columns.csv')
 
         if file_name == "GDI_detail_2019.csv":
 
@@ -251,6 +252,7 @@ if file_name is not None:
             fig = px.scatter(data, x=metric, y='GDI_Value', color='Cluster',
                             hover_data=['Country'], title=f'Distribution de {metric} vs GDI_Value par Cluster',
                             color_discrete_sequence=custom_colors)
+            fig.update_layout(width=800,height=600)               
             st.plotly_chart(fig)
 
             cluster_data = data[data['Cluster'] == selected_cluster]
@@ -270,8 +272,8 @@ if file_name is not None:
                     st.markdown(f"**Espérance de vie moyenne des hommes:** {cluster_stats['Lif_Excep_Male']:.1f} ans")
 
 
-                    #carte du monde avec les différents clusters 
-
+            st.header("Visualisation des clusters")
+            map_cluster_GDI('Updated_GDI_with_Sorted_Clusters_and_All_Columns.csv')
         
 
     elif selected_tab == "Prédictions pour le GDI":
