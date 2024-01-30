@@ -2,7 +2,6 @@ import folium
 import streamlit as st
 from streamlit_folium import folium_static
 import pandas as pd
-import country_converter as coco
 
 def create_map_GII(df):
     
