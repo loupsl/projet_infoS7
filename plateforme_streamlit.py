@@ -12,28 +12,47 @@ from create_map_GDIyear import create_map_GDI
 from pred_arima import plot_prediction  
 from streamlit_folium import folium_static
 
-st.title("Importation de jeu de données avec Streamlit")
+st.subheader("Let's get started ! ")
 
+file_name = st.selectbox("Choisissez un jeu de données", ["Gender_Inequality_Index.csv", "GDI_detail_2019.csv"])
 
-uploaded_file = st.file_uploader("Importez un fichier CSV", type=["csv"])
 chemin_gdi = "GDI_detail_2019.csv"
 chemin_gii = "Gender_Inequality_Index.csv"
 chemin_gdi1990 = "GDI_1990_2021.csv"
 
-if uploaded_file is not None:
+if file_name is not None:
 
-    file_name = uploaded_file.name 
     if file_name == "GDI_detail_2019.csv" : 
-        df = pd.read_csv(uploaded_file,skiprows=[1])
+        df = pd.read_csv(file_name,skiprows=[1])
         def convert_to_numeric(column):
             return pd.to_numeric(column.str.replace(',', '').str.replace(' ', ''), errors='coerce')
         for col in df.columns.drop(['HDI Rank', 'Country']):
             df[col] = convert_to_numeric(df[col])
     else: 
-        df = pd.read_csv(uploaded_file) 
+        df = pd.read_csv(file_name) 
 
     quantitative_cols = df.select_dtypes(include=["float64","int64"])
     with st.sidebar:
+        custom_css_sidebar = """
+        <style>
+            sidebar .title {
+            color: #ff2c83;
+            font-weight: bold;
+            font-size: 1.5em; 
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem; 
+            border-bottom: 2px solid #ff2c83; 
+        }
+        
+        .sidebar .space {
+            margin-bottom: 2rem; 
+            }
+        </style>
+    """
+        st.sidebar.markdown(custom_css_sidebar, unsafe_allow_html=True)
+        st.sidebar.markdown('<div class="title">Projet d\'Informatique S7</div>', unsafe_allow_html=True)
+        st.sidebar.markdown('<div class="space"></div>', unsafe_allow_html=True) 
+
         selected_tab = st.radio("Sélectionnez l'onglet :", 
                             ('Informations et Résumé', 'Corrélations', 
                              'Visualisation', 'Classification', 'Prédictions pour le GDI'))
