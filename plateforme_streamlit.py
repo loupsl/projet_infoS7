@@ -164,7 +164,7 @@ if file_name is not None:
 
 
         if file_name == "GDI_detail_2019.csv" : 
-            df_hist = pd.read_csv("GDI_detail_2019_modified.csv")
+            df_hist = pd.read_csv("GDI_detail_2019_complete_decimal.csv")
             selected_country = st.selectbox('Choisissez un pays', df['Country'].unique()) 
             histogram_fig = create_histogram_for_countryGDI(df_hist,selected_country)
 
