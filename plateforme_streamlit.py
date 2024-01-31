@@ -130,25 +130,29 @@ if file_name is not None:
         
         st.header("Nuage de Points")
         variable_x = 'Country' 
-        st.write("Variable de l'axe des abscisses : Country")
-        variable_y = st.selectbox("Variable de l'axe des ordonnées", df.columns)
-        if st.button("Afficher le nuage de points"):
-            df['Country'] = df['Country'].astype('category')
-            fig = px.scatter(df, variable_x, variable_y, title='Nuage de points des valeurs par pays')
-            if variable_x == "GDI_Value":
-                maxvalue,minvalue = 1.1,0.3
-            else:
-                maxvalue,minvalue=1,0
+        #st.write("Variable de l'axe des abscisses : Country")
+        if file_name == 'GDI_detail_2019.csv':
+            variable_y = 'GDI_Value'
+        else: 
+            variable_y = 'GII'
+        #variable_y = st.selectbox("Variable de l'axe des ordonnées", df.columns[4:-1])
+        #if st.button("Afficher le nuage de points"):
+        df['Country'] = df['Country'].astype('category')
+        fig = px.scatter(df, variable_x, variable_y, title='Nuage de points des valeurs par pays')
+        if variable_x == "GDI_Value":
+            maxvalue,minvalue = 1.1,0.3
+        else:
+            maxvalue,minvalue=1,0
 
-            fig.update_xaxes(showticklabels=False) 
-            fig.update_layout(
-                yaxis=dict(range=[minvalue, maxvalue]),  
-                xaxis=dict(categoryorder='total descending', tickangle=-45),
-                width = 800,
-                height = 600,
-            )
+        fig.update_xaxes(showticklabels=False) 
+        fig.update_layout(
+            yaxis=dict(range=[minvalue, maxvalue]),  
+            xaxis=dict(categoryorder='total descending', tickangle=-45),
+            width = 800,
+            height = 600,
+        )
 
-            st.plotly_chart(fig)
+        st.plotly_chart(fig)
 
 
         st.header("Histogramme")
@@ -199,7 +203,7 @@ if file_name is not None:
             selected_cluster = st.sidebar.selectbox("Sélectionnez un Cluster", sorted(data['Cluster'].unique()))
             st.header('Visualisation des Inégalités de Genre par Pays')
             data['Cluster'] = data['Cluster'].astype('category')
-            metric = st.selectbox('Choisissez une métrique à visualiser:', data.columns[2:-1]) # exclure 'Country', 'Human_development', et 'Cluster'
+            metric = st.selectbox('Choisissez une métrique à visualiser:', data.columns[4:-1]) # exclure 'Country', 'Human_development', et 'Cluster'
             custom_colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd'] # Bleu, Orange, Vert, Rouge, Violet
             fig = px.scatter(data, x=metric, y='GII', color='Cluster',
                             hover_data=['Country'], title=f'Distribution de {metric} vs GII par Cluster',
@@ -244,10 +248,9 @@ if file_name is not None:
             selected_cluster = st.sidebar.selectbox("Sélectionnez un Cluster", sorted(data['Cluster'].unique()))
             st.write(f"Pays dans le Cluster {selected_cluster}:")
             st.write(data[data['Cluster'] == selected_cluster][['Country', 'GDI_Value', 'Cluster']]) # Remplacer 'GII' par 'GDI_Value'
-
             st.header('Visualisation des Inégalités de Genre par Pays')
             data['Cluster'] = data['Cluster'].astype('category')
-            metric = st.selectbox('Choisissez une métrique à visualiser:', data.columns[2:-1]) # Exclure 'Country' et 'Cluster'
+            metric = st.selectbox('Choisissez une métrique à visualiser:', data.columns[4:-1]) # Exclure 'Country' et 'Cluster'
             custom_colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd'] # Bleu, Orange, Vert, Rouge, Violet
             fig = px.scatter(data, x=metric, y='GDI_Value', color='Cluster',
                             hover_data=['Country'], title=f'Distribution de {metric} vs GDI_Value par Cluster',
