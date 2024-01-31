@@ -12,6 +12,9 @@ from create_map_GDIyear import create_map_GDI
 from pred_arima import plot_prediction  
 from streamlit_folium import folium_static
 from carte_classif import map_cluster_GII, map_cluster_GDI
+from graphGDIGII import plot_graphGDIGII
+from graphGIIHDI import plot_graphGIIHDI
+from histograms_contribGII import plot_histo_GII
 
 file_name = st.selectbox("Choisissez un jeu de données", ["Gender_Inequality_Index.csv", "GDI_detail_2019.csv"])
 
@@ -35,7 +38,9 @@ if file_name is not None:
         st.sidebar.title("Menu")
         selected_tab = st.radio("Sélectionnez l'onglet :", 
                             ('Informations et Résumé', 'Corrélations', 
-                             'Visualisation', 'Classification', 'Prédictions pour le GDI'))
+                             'Visualisation', 'Classification', 'Prédictions pour le GDI',"Graphiques pour la présentation"
+                             ))
+
 
    #####################################################################
 
@@ -302,7 +307,19 @@ if file_name is not None:
             plot_prediction(gdi_melted, selected_country, p, d, q)
 
 
+    elif selected_tab == "Graphiques pour la présentation":
 
+        st.header("Moyenne de chaque catégorie de calcul du GII par cluster")
+
+        plot_histo_GII()
+
+        st.header("Comparaison des indices de GDI et GII")
+
+        plot_graphGDIGII()
+
+        st.header("Valeurs des GII et HDI des pays")
+
+        plot_graphGIIHDI()
 
 
 
