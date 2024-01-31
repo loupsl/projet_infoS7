@@ -5,6 +5,7 @@
         {
             "type": "Feature",
             "properties": {
+
                 "name": "Afghanistan"
             },
             "geometry": {
@@ -6687,7 +6688,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Bolivia"
+                "name": "Bolivia (Plurinational State of)"
             },
             "geometry": {
                 "type": "Polygon",
@@ -43629,7 +43630,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Venezuela"
+                "name": "Venezuela (Bolivarian Republic of)"
             },
             "geometry": {
                 "type": "Polygon",

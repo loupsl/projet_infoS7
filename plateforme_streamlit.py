@@ -11,7 +11,7 @@ from create_map_GII import create_map_GII
 from create_map_GDIyear import create_map_GDI
 from pred_arima import plot_prediction  
 from streamlit_folium import folium_static
-from carte_classif import map_cluster_GII, map_cluster_GDI
+from carte_classif import map_cluster_GII, map_cluster_GDI, plot_legend 
 from graphGDIGII import plot_graphGDIGII
 from graphGIIHDI import plot_graphGIIHDI
 from histograms_contribGII import plot_histo_GII
@@ -144,8 +144,8 @@ if file_name is not None:
         #if st.button("Afficher le nuage de points"):
         df['Country'] = df['Country'].astype('category')
         fig = px.scatter(df, variable_x, variable_y, title='Nuage de points des valeurs par pays')
-        if variable_x == "GDI_Value":
-            maxvalue,minvalue = 1.1,0.3
+        if variable_y == "GDI_Value":
+            maxvalue,minvalue = 1.1,0.4
         else:
             maxvalue,minvalue=1,0
 
@@ -164,8 +164,9 @@ if file_name is not None:
 
 
         if file_name == "GDI_detail_2019.csv" : 
+            df_hist = pd.read_csv("GDI_detail_2019_modified.csv")
             selected_country = st.selectbox('Choisissez un pays', df['Country'].unique()) 
-            histogram_fig = create_histogram_for_countryGDI(df, selected_country)
+            histogram_fig = create_histogram_for_countryGDI(df_hist,selected_country)
 
         else:  
             selected_country = st.selectbox('Choisissez un pays', df['Country'].unique()) 
@@ -244,6 +245,7 @@ if file_name is not None:
                     st.markdown(f"**Participation moyenne des hommes dans la force de travail:** {cluster_stats['M_Labour_force']:.2f}%")
 
             st.header("Visualisation des clusters")
+            plot_legend()
             map_cluster_GII('Updated_GII_with_Sorted_Clusters_and_All_Columns.csv')
 
         if file_name == "GDI_detail_2019.csv":
@@ -281,8 +283,9 @@ if file_name is not None:
 
 
             st.header("Visualisation des clusters")
+            plot_legend()
             map_cluster_GDI('Updated_GDI_with_Sorted_Clusters_and_All_Columns.csv')
-        
+            
 
     elif selected_tab == "Prédictions pour le GDI":
         gdi_data = pd.read_csv("GDI_1990_2021.csv")

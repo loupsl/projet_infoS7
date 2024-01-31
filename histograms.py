@@ -2,13 +2,23 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt 
 import seaborn as sns
-from scipy.stats import pearsonr 
 import plotly.express as px 
 
 
 
-def create_histogram_for_countryGDI(df, country):
-    df_transform = load_and_transform_data(df)
+def create_histogram_for_countryGDI(df,country):
+    """ def load_and_transform_data(df):
+        if df.iloc[0, 0] != df.iloc[0, 0]:  
+            df = df.drop(0).reset_index(drop=True)
+        df = df.replace(',', '', regex=True)
+        for col in df.columns:
+            if df[col].dtype == 'object':
+                try:
+                    df[col] = df[col].astype(float)
+                except ValueError:
+                    pass
+        return df """
+    df_transform = df
     data_pays = df_transform[df_transform['Country'] == country]
     data_pays_num = data_pays.select_dtypes(include='number').T.reset_index()
     data_pays_num.columns = ['Variable', 'Value']
@@ -34,6 +44,17 @@ def create_histogram_for_countryGDI(df, country):
     return fig
 
 def create_histogram_for_countryGII(df, country):
+    def load_and_transform_data(df):
+        if df.iloc[0, 0] != df.iloc[0, 0]:  
+            df = df.drop(0).reset_index(drop=True)
+        df = df.replace(',', '', regex=True)
+        for col in df.columns:
+            if df[col].dtype == 'object':
+                try:
+                    df[col] = df[col].astype(float)
+                except ValueError:
+                    pass
+        return df
     df_transform = load_and_transform_data(df) 
     data_pays = df_transform[df_transform['Country'] == country]
     data_pays_num = data_pays.select_dtypes(include='number').T.reset_index()
@@ -56,17 +77,7 @@ def create_histogram_for_countryGII(df, country):
     return fig
 
 
-def load_and_transform_data(df):
-    if df.iloc[0, 0] != df.iloc[0, 0]:  
-        df = df.drop(0).reset_index(drop=True)
-    df = df.replace(',', '', regex=True)
-    for col in df.columns:
-        if df[col].dtype == 'object':
-            try:
-                df[col] = df[col].astype(float)
-            except ValueError:
-                pass
-    return df
+
 
 
     
