@@ -95,7 +95,7 @@ def plot_legend():
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         margin=dict(l=10, r=10, t=20, b=20), 
-        height=50,  # adjust height 
+        height=50,  
         width=400  
     )
     legend.update_layout(showlegend=False)

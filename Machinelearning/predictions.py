@@ -29,36 +29,28 @@ for country in gdi_melted['Country'].unique():
     #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
     if len(X) > 5:  
-        #premières années pour l'entraînement et les dernières pour le test
         split_index = int(len(X) * 0.7)  # 70% pour l'entraînement, 30% pour le test
         X_train, X_test = X.iloc[:split_index], X.iloc[split_index:]
         y_train, y_test = y.iloc[:split_index], y.iloc[split_index:]
 
-
-
-    # Linear Regression with Cross-Validation
     lin_reg = LinearRegression()
     cross_val_scores = cross_val_score(lin_reg, X_train, y_train, cv=5)
     lin_reg.fit(X_train, y_train)
     y_pred_lin_reg = lin_reg.predict(years_to_predict)
 
-    # Ridge Regression
     ridge = Ridge(alpha=1.0)
     ridge.fit(X_train, y_train)
     y_pred_ridge = ridge.predict(years_to_predict)
 
-    # Random Forest
     rf = RandomForestRegressor(n_estimators=100, random_state=42)
     rf.fit(X_train, y_train)
     y_pred_rf = rf.predict(years_to_predict)
 
-    # K-Nearest Neighbors (KNN)
     min_neighbors = min(5, len(X_train) - 1)  
     knn = KNeighborsRegressor(n_neighbors=min_neighbors)
     knn.fit(X_train, y_train)
     y_pred_knn = knn.predict(years_to_predict)
 
-    # Support Vector Regression (SVR)
     svr = SVR(kernel='rbf')
     svr.fit(X_train, y_train)
     y_pred_svr = svr.predict(years_to_predict)
@@ -89,24 +81,15 @@ def get_mse(country):
     return country_mse.get(country, {})  
 
 def get_actual_gdi(country):
-    """
-    Renvoie les valeurs réelles du GDI pour un pays spécifié.
-    """
     country_data = gdi_melted[gdi_melted['Country'] == country]
     return country_data[['Year', 'GDI']]
 
 def get_predictions_and_actual_gdi(country):
-    """
-    Renvoie les prédictions et les valeurs réelles du GDI pour un pays spécifié.
-    """
     predictions = country_predictions.get(country, {})
     actual_gdi = get_actual_gdi(country)
     return predictions, actual_gdi
 
 def get_available_countries():
-    """
-    Renvoie la liste des pays disponibles dans le jeu de données.
-    """
     return gdi_melted['Country'].unique().tolist()
 
 
